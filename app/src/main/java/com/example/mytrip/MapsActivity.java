@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentActivity;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -28,6 +29,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.io.IOException;
 //import java.text.SimpleDateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -153,7 +155,7 @@ else {
 
     @Override
     public void onMapLongClick(LatLng latLng) {
-        Geocoder geocoder=new Geocoder(getApplicationContext(), Locale.getDefault());
+        Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
         String address = "";
 
         List<Address> listaddress = null;
@@ -162,25 +164,42 @@ else {
             if (listaddress != null && listaddress.size() > 0) {
                 if (listaddress.get(0).getThoroughfare() != null) {
                     if (listaddress.get(0).getSubThoroughfare() != null) {
-                        address = listaddress.get(0).getSubThoroughfare()+" ";
+                        address = listaddress.get(0).getSubThoroughfare() + " ";
                     }
-                    address  +=listaddress.get(0).getThoroughfare();
+                    address += listaddress.get(0).getThoroughfare();
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        if(address == "")
-        {
+        if (address == "") {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
             address = sdf.format(new Date());
         }
         mMap.addMarker(new MarkerOptions().position(latLng).title(address));
 
-MainActivity.places.add(address);
-MainActivity.locations.add(latLng);
+        MainActivity.places.add(address);
+        MainActivity.locations.add(latLng);
         MainActivity.arrayAdapter.notifyDataSetChanged();
+
+        SharedPreferences sharedPreferences = this.getSharedPreferences("com.example.mytrip",Context.MODE_PRIVATE);
+
+      /*  try {
+            ArrayList<String> latitudeList = new ArrayList<>();
+            ArrayList<String> longitudeList = new ArrayList<>();
+
+            for(LatLng coordinates : MainActivity.locations )
+            {
+                latitudeList.add(Double.toString(coordinates.latitude));
+                latitudeList.add(Double.toString(coordinates.longitude));
+            }
+            sharedPreferences.edit().putString("places",ObjectSerializer.serialize(MainActivity.places)).apply();
+            sharedPreferences.edit().putString("latitude",ObjectSerializer.serialize(latitudeList)).apply();
+            sharedPreferences.edit().putString("longitude",ObjectSerializer.serialize(longitudeList)).apply();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
 
         Toast.makeText(this, "Location_saved", Toast.LENGTH_SHORT).show();
 
