@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
              //   Toast.makeText(MainActivity.this, "", Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(getApplicationContext(),MapsActivity.class);
-                intent.putExtra("place", i);
+                intent.putExtra("placenumber", i);
 
                 startActivity(intent);
 

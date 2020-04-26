@@ -144,8 +144,6 @@ else {
            placelocation.setLatitude(MainActivity.locations.get(intent.getIntExtra("placenumber", 0)).latitude);
            placelocation.setLongitude(MainActivity.locations.get(intent.getIntExtra("placenumber", 0)).longitude);
            centreMapOnLocation(placelocation, MainActivity.places.get(intent.getIntExtra("placenumber", 0)));
-
-
        }
         // Add a marker in Sydney and move the camera
       // LatLng sydney = new LatLng(-34, 151);
